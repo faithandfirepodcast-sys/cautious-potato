@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Tools & Tutorials</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #FFFDF9;
+    --sand: #F0EAE0;
+    --amber: #D97706;
+    --amber-light: #FDE68A;
+    --amber-dark: #92400E;
+    --brown: #3D2B1F;
+    --brown-mid: #6B4C3B;
+    --brown-light: #A07860;
+    --text: #2C1F15;
+    --text-muted: #7C6055;
+    --border: rgba(61, 43, 31, 0.12);
+    --radius: 16px;
+    --font-display: 'Lora', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250, 247, 242, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--brown);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .nav-logo span {
+    width: 28px; height: 28px;
+    background: var(--amber);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-logo span svg { width: 16px; height: 16px; fill: white; }
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-cta {
+    background: var(--amber);
+    color: white;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .nav-cta:hover { background: var(--amber-dark); transform: translateY(-1px); }
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--brown);
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 60px; left: 0; right: 0;
+    background: var(--cream);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem 1.5rem;
+    z-index: 99;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 1.5rem 4rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  .blob-1 { width: 500px; height: 500px; background: #FBBF24; top: -100px; right: -150px; }
+  .blob-2 { width: 400px; height: 400px; background: #FDE68A; bottom: -80px; left: -100px; }
+  .hero-inner {
+    position: relative;
+    max-width: 680px;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--amber-dark);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+  .hero-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    background: var(--amber);
+    border-radius: 50%;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--brown);
+    margin-bottom: 1.25rem;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--amber);
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--amber);
+    color: white;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s, transform 0.15s;
+    box-shadow: 0 4px 20px rgba(217, 119, 6, 0.3);
+  }
+  .btn-primary:hover { background: var(--amber-dark); transform: translateY(-2px); }
+  .btn-secondary {
+    background: white;
+    color: var(--brown);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 14px 28px;
+    border-radius: 100px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--amber); transform: translateY(-2px); }
+  .hero-stats {
+    display: flex;
+    gap: 2.5rem;
+    justify-content: center;
+    margin-top: 3.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--brown);
+    display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+  /* ── ABOUT ── */
+  #about {
+    padding: 6rem 1.5rem;
+    background: var(--warm-white);
+  }
+  .section-inner { max-width: 1000px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 0.75rem;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 600;
+    color: var(--brown);
+    margin-bottom: 1.25rem;
+    line-height: 1.25;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+  .about-avatar {
+    position: relative;
+  }
+  .avatar-card {
+    background: var(--sand);
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+  .avatar-img {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--amber-light), var(--amber));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+  }
+  .avatar-name {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--brown);
+    margin-bottom: 0.25rem;
+  }
+  .avatar-title { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+  .avatar-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+  .tag {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--brown-mid);
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .about-text p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-size: 1.0rem;
+  }
+  .about-list {
+    list-style: none;
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .about-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+  .about-list li::before {
+    content: '';
+    width: 18px; height: 18px;
+    background: var(--amber-light);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='%23D97706' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+  }
+
+  /* ── VIDEOS ── */
+  #videos {
+    padding: 6rem 1.5rem;
+    background: var(--cream);
+  }
+  .section-header { margin-bottom: 3rem; }
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .video-card {
+    background: white;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .video-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(61, 43, 31, 0.1); }
+  .video-thumb {
+    aspect-ratio: 16/9;
+    background: var(--sand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .thumb-bg { position: absolute; inset: 0; }
+  .thumb-1 { background: linear-gradient(135deg, #FDE68A 0%, #FBBF24 100%); }
+  .thumb-2 { background: linear-gradient(135deg, #FED7AA 0%, #FB923C 100%); }
+  .thumb-3 { background: linear-gradient(135deg, #BAE6FD 0%, #38BDF8 100%); }
+  .thumb-4 { background: linear-gradient(135deg, #BBF7D0 0%, #34D399 100%); }
+  .thumb-5 { background: linear-gradient(135deg, #E9D5FF 0%, #A78BFA 100%); }
+  .thumb-6 { background: linear-gradient(135deg, #FECACA 0%, #F87171 100%); }
+  .play-btn {
+    position: relative;
+    width: 48px; height: 48px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .play-btn svg { width: 18px; height: 18px; fill: var(--brown); margin-left: 2px; }
+  .video-label {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    background: rgba(0,0,0,0.55);
+    color: white;
+    font-size: 0.7rem;
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+  .video-body { padding: 1rem 1.1rem 1.25rem; }
+  .video-category {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    margin-bottom: 0.35rem;
+  }
+  .video-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--brown);
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+  }
+  .video-meta { font-size: 0.8rem; color: var(--text-muted); }
+  .videos-cta {
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+
+  /* ── EMAIL SIGNUP ── */
+  #signup {
+    padding: 6rem 1.5rem;
+    background: var(--warm-white);
+  }
+  .signup-card {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--sand);
+    border-radius: 24px;
+    padding: 3.5rem 3rem;
+    text-align: center;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .signup-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: var(--amber-light);
+    border-radius: 50%;
+    opacity: 0.4;
+    filter: blur(40px);
+  }
+  .signup-icon {
+    width: 56px; height: 56px;
+    background: var(--amber);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    position: relative;
+  }
+  .signup-icon svg { width: 26px; height: 26px; fill: white; }
+  .signup-card h2 { margin-bottom: 0.75rem; }
+  .signup-card p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+  .signup-form {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .signup-form input {
+    flex: 1;
+    min-width: 220px;
+    padding: 13px 18px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: white;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .signup-form input:focus { border-color: var(--amber); }
+  .signup-form input::placeholder { color: var(--text-muted); }
+  .signup-form button {
+    background: var(--amber);
+    color: white;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 13px 26px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .signup-form button:hover { background: var(--amber-dark); transform: translateY(-1px); }
+  .signup-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 1rem; position: relative; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2.5rem 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: var(--cream);
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--brown);
+    font-size: 1rem;
+    text-decoration: none;
+  }
+  .footer-links { display: flex; gap: 1.5rem; }
+  .footer-links a {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--amber); }
+  .footer-copy { font-size: 0.8rem; color: var(--text-muted); }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: none; }
+  .fade-up:nth-child(2) { transition-delay: 0.1s; }
+  .fade-up:nth-child(3) { transition-delay: 0.2s; }
+  .fade-up:nth-child(4) { transition-delay: 0.3s; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 700px) {
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-avatar { order: -1; }
+    .signup-card { padding: 2.5rem 1.5rem; }
+    .signup-form { flex-direction: column; }
+    .signup-form input { min-width: 0; }
+    footer { flex-direction: column; text-align: center; }
+    .hero-stats { gap: 1.5rem; }
+    .videos-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <span><svg viewBox="0 0 16 16"><path d="M8 1l2 4.5H15l-4 3 1.5 5L8 11l-4.5 2.5L5 8.5 1 5.5h5z"/></svg></span>
+    AI Tools &amp; Tutorials
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#videos">Videos</a></li>
+    <li><a href="#signup">Newsletter</a></li>
+  </ul>
+  <a class="nav-cta" href="https://youtube.com" target="_blank">Subscribe</a>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">About</a>
+  <a href="#videos" onclick="closeMenu()">Videos</a>
+  <a href="#signup" onclick="closeMenu()">Newsletter</a>
+  <a href="https://youtube.com" target="_blank">Subscribe on YouTube →</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-blob blob-1"></div>
+  <div class="hero-blob blob-2"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">New videos every week</div>
+    <h1>Master <em>AI tools</em><br>without the overwhelm</h1>
+    <p class="hero-sub">
+      Friendly, practical tutorials that help you actually use AI in your daily work — no jargon, no hype, just real results.
+    </p>
+    <div class="hero-buttons">
+      <a class="btn-primary" href="https://youtube.com" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="white"><path d="M6.5 11.5l5-3.5-5-3.5v7z"/><path d="M14 3.5a2 2 0 00-1.4-1.4C11.4 2 8 2 8 2s-3.4 0-4.6.1A2 2 0 001.9 3.5 20 20 0 001.8 8a20 20 0 00.1 4.5A2 2 0 003.4 14C4.6 14.1 8 14.1 8 14.1s3.4 0 4.6-.1a2 2 0 001.4-1.4A20 20 0 0014.2 8a20 20 0 00-.2-4.5z"/></svg>
+        Watch on YouTube
+      </a>
+      <a class="btn-secondary" href="#videos">Browse Tutorials</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">50+</span><span class="stat-label">Free tutorials</span></div>
+      <div class="stat"><span class="stat-num">10k+</span><span class="stat-label">Subscribers</span></div>
+      <div class="stat"><span class="stat-num">Weekly</span><span class="stat-label">New videos</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-avatar fade-up">
+        <div class="avatar-card">
+          <div class="avatar-img">AI</div>
+          <div class="avatar-name">Your Name</div>
+          <div class="avatar-title">AI Educator &amp; Content Creator</div>
+          <div class="avatar-tags">
+            <span class="tag">ChatGPT</span>
+            <span class="tag">Midjourney</span>
+            <span class="tag">Automation</span>
+            <span class="tag">Productivity</span>
+            <span class="tag">Prompt Engineering</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-text fade-up">
+        <div class="section-label">About the channel</div>
+        <h2>AI made simple, practical, and human</h2>
+        <p>
+          I started this channel because every AI tutorial I found was either too technical or too shallow. I wanted something in between — real walkthroughs for real people.
+        </p>
+        <p>
+          Whether you're a freelancer, a business owner, or just curious about where technology is headed, my videos meet you where you are.
+        </p>
+        <ul class="about-list">
+          <li>Beginner-friendly walkthroughs of the best AI tools</li>
+          <li>Honest reviews — I'll tell you what's actually worth your time</li>
+          <li>Productivity workflows you can implement right away</li>
+          <li>Weekly tips in the newsletter so you never fall behind</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <div class="section-label">Latest tutorials</div>
+      <h2>Learn at your own pace</h2>
+    </div>
+    <div class="videos-grid">
+      <a class="video-card fade-up" href="https://youtube.com" target="_blank">
+        <div class="video-thumb"><div class="thumb-bg thumb-1"></div><div class="play-btn"><svg viewBox="0 0 16 16"><path d="M5.5 11.5l5.5-3.5-5.5-3.5v7z"/></svg></div><span class="video-label">12:34</span></div>
+        <div class="video-body"><div class="video-category">Getting Started</div><div class="video-title">ChatGPT for Complete Beginners — Your First Hour</div><div class="video-meta">42K views · 2 weeks ago</div></div>
+      </a>
+      <a class="video-card fade-up" href="https://youtube.com" target="_blank">
+        <div class="video-thumb"><div class="thumb-bg thumb-2"></div><div class="play-btn"><svg viewBox="0 0 16 16"><path d="M5.5 11.5l5.5-3.5-5.5-3.5v7z"/></svg></div><span class="video-label">9:18</span></div>
+        <div class="video-body"><div class="video-category">Productivity</div><div class="video-title">10 AI Prompts That Actually Save You Hours</div><div class="video-meta">28K views · 3 weeks ago</div></div>
+      </a>
+      <a class="video-card fade-up" href="https://youtube.com" target="_blank">
+        <div class="video-thumb"><div class="thumb-bg thumb-3"></div><div class="play-btn"><svg viewBox="0 0 16 16"><path d="M5.5 11.5l5.5-3.5-5.5-3.5v7z"/></svg></div><span class="video-label">15:02</span></div>
+        <div class="video-body"><div class="video-category">Image AI</div><div class="video-title">Midjourney vs DALL·E 3 — Which is Better in 2025?</div><div class="video-meta">19K views · 1 month ago</div></div>
+      </a>
+      <a class="video-card fade-up" href="https://youtube.com" target="_blank">
+        <div class="video-thumb"><div class="thumb-bg thumb-4"></div><div class="play-btn"><svg viewBox="0 0 16 16"><path d="M5.5 11.5l5.5-3.5-5.5-3.5v7z"/></svg></div><span class="video-label">11:47</span></div>
+        <div class="video-body"><div class="video-category">Automation</div><div class="video-title">Build a No-Code AI Workflow with Make.com</div><div class="video-meta">15K views · 1 month ago</div></div>
+      </a>
+      <a class="video-card fade-up" href="https://youtube.com" target="_blank">
+        <div class="video-thumb"><div class="thumb-bg thumb-5"></div><div class="play-btn"><svg viewBox="0 0 16 16"><path d="M5.5 11.5l5.5-3.5-5.5-3.5v7z"/></svg></div><span class="video-label">8:55</span></div>
+        <div class="video-body"><div class="video-category">Writing</div><div class="video-title">How to Use Claude for Long-Form Writing (That Sounds Like You)</div><div class="video-meta">12K views · 5 weeks ago</div></div>
+      </a>
+      <a class="video-card fade-up" href="https://youtube.com" target="_blank">
+        <div class="video-thumb"><div class="thumb-bg thumb-6"></div><div class="play-btn"><svg viewBox="0 0 16 16"><path d="M5.5 11.5l5.5-3.5-5.5-3.5v7z"/></svg></div><span class="video-label">13:20</span></div>
+        <div class="video-body"><div class="video-category">Tools Review</div><div class="video-title">The 5 AI Tools I Actually Use Every Day</div><div class="video-meta">34K views · 6 weeks ago</div></div>
+      </a>
+    </div>
+    <div class="videos-cta fade-up">
+      <a class="btn-primary" href="https://youtube.com" target="_blank">See All Videos on YouTube →</a>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL SIGNUP -->
+<section id="signup">
+  <div class="signup-card fade-up">
+    <div class="signup-icon">
+      <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2l-8 5-8-5h16zm0 12H4V9l8 5 8-5v9z"/></svg>
+    </div>
+    <div class="section-label">Weekly newsletter</div>
+    <h2>Stay one step ahead of AI</h2>
+    <p>Every week I send a short email with the best new AI tools, tips, and tutorial updates. No spam — just the good stuff.</p>
+    <form class="signup-form" onsubmit="handleSignup(event)">
+      <input type="email" id="emailInput" placeholder="your@email.com" required />
+      <button type="submit">Subscribe Free</button>
+    </form>
+    <p class="signup-note" id="signupMsg">Join 3,000+ readers. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a class="footer-logo" href="#">AI Tools &amp; Tutorials</a>
+  <div class="footer-links">
+    <a href="https://youtube.com" target="_blank">YouTube</a>
+    <a href="#about">About</a>
+    <a href="#signup">Newsletter</a>
+  </div>
+  <span class="footer-copy">© 2025 AI Tools &amp; Tutorials</span>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  function handleSignup(e) {
+    e.preventDefault();
+    const msg = document.getElementById('signupMsg');
+    msg.textContent = "🎉 You're in! Check your inbox for a welcome email.";
+    msg.style.color = '#059669';
+    document.getElementById('emailInput').value = '';
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) el.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
